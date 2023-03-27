@@ -36,6 +36,11 @@ class FCNHead(BaseDecodeHead):
             assert self.in_channels == self.channels
 
         conv_padding = (kernel_size // 2) * dilation
+        #地板除：除后向下取整
+        #kernel_size = 3, 1
+        #kernel_size = 2, 1
+        #kernel_size = 4, 2
+        #kernel_size = 5, 2
         convs = []
         for i in range(num_convs):
             _in_channels = self.in_channels if i == 0 else self.channels

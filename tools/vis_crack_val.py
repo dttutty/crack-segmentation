@@ -9,7 +9,7 @@ import cv2
 if __name__ == '__main__':
     ann_dir = '/home/zhaolei/Projects/mmsegmentation/data/crack/annotations/validation'
     img_dir = '/home/zhaolei/Projects/mmsegmentation/data/crack/images/validation'
-    vis_dir = '/home/zhaolei/Projects/mmsegmentation/data/crack/vis/validation'
+    vis_dir = '/home/zhaolei/Projects/mmsegmentation/data/crack/visualization/validation'
     
     listdir = os.listdir(ann_dir)
     

@@ -16,7 +16,7 @@ class FPN(BaseModule):
     Detection <https://arxiv.org/abs/1612.03144>`_.
 
     Args:
-        in_channels (list[int]): Number of input channels per scale.
+        in_channels (list[int]): Number of input channels per scale.-
         out_channels (int): Number of output channels (used at each scale).
         num_outs (int): Number of output scales.
         start_level (int): Index of the start input backbone level used to

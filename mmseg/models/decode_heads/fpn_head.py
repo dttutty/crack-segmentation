@@ -29,12 +29,30 @@ class FPNHead(BaseDecodeHead):
         self.feature_strides = feature_strides
 
         self.scale_heads = nn.ModuleList()
+        #while feature_strides = [4,8,16,32]
+        #i=0, feature_stride[0] = 4
+        #i=1, feature_stride[1] = 8
+        #i=2, feature_stride[2] = 16
+        #i=2, feature_stride[3] = 32
         for i in range(len(feature_strides)):
             head_length = max(
                 1,
                 int(np.log2(feature_strides[i]) - np.log2(feature_strides[0])))
             scale_head = []
             for k in range(head_length):
+                #feature_stride[0] = 4, head_length=1, k=0, scale_head.append(conv(self.in_channels[0], channels))
+                
+                #feature_stride[1] = 8, head_length=1, k=0, scale_head.append(conv(self.in_channels[1], channels))
+                #append(Upsample())
+                
+                #feature_stride[2] = 16, head_length=2, k=0, scale_head.append(conv(self.in_channels[2], channels))
+                #feature_stride[2] = 16, head_length=2, k=1, scale_head.append(conv(channels, channels))
+                #append(Upsample())
+                
+                #feature_stride[3] = 32, head_length=2, k=0, scale_head.append(conv(self.in_channels[3], channels))
+                #feature_stride[3] = 32, head_length=2, k=1, scale_head.append(conv(channels, channels))
+                #feature_stride[3] = 32, head_length=2, k=2, scale_head.append(conv(channels, channels))
+                #append(Upsample())
                 scale_head.append(
                     ConvModule(
                         self.in_channels[i] if k == 0 else self.channels,
@@ -44,7 +62,7 @@ class FPNHead(BaseDecodeHead):
                         conv_cfg=self.conv_cfg,
                         norm_cfg=self.norm_cfg,
                         act_cfg=self.act_cfg))
-                if feature_strides[i] != feature_strides[0]:
+                if feature_strides[i] != feature_strides[0]: #feature_stride[0] = 4
                     scale_head.append(
                         Upsample(
                             scale_factor=2,

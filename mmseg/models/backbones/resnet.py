@@ -481,15 +481,26 @@ class ResNet(BaseModule):
         self.multi_grid = multi_grid
         self.contract_dilation = contract_dilation
         self.block, stage_blocks = self.arch_settings[depth]
+    #      arch_settings = {
+    #     18: (BasicBlock, (2, 2, 2, 2)),
+    #     34: (BasicBlock, (3, 4, 6, 3)),
+    #     50: (Bottleneck, (3, 4, 6, 3)),
+    #     101: (Bottleneck, (3, 4, 23, 3)),
+    #     152: (Bottleneck, (3, 8, 36, 3))
+    # }
         self.stage_blocks = stage_blocks[:num_stages]
-        self.inplanes = stem_channels
+        self.inplanes = stem_channels#64
 
         self._make_stem_layer(in_channels, stem_channels)
 
         self.res_layers = []
         for i, num_blocks in enumerate(self.stage_blocks):
-            stride = strides[i]
-            dilation = dilations[i]
+            #num_blocks=3
+            #num_blocks=4
+            #num_blocks=6
+            #num_blocks=3
+            stride = strides[i]#(1, 2, 2, 2),
+            dilation = dilations[i]#(1, 1, 1, 1),
             dcn = self.dcn if self.stage_with_dcn[i] else None
             if plugins is not None:
                 stage_plugins = self.make_stage_plugins(plugins, i)
@@ -669,7 +680,7 @@ class ResNet(BaseModule):
         for i, layer_name in enumerate(self.res_layers):
             res_layer = getattr(self, layer_name)
             x = res_layer(x)
-            if i in self.out_indices:
+            if i in self.out_indices:#out_indices = [0,1,2,3]
                 outs.append(x)
         return tuple(outs)
 

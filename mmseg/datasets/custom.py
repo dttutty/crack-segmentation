@@ -428,7 +428,7 @@ class CustomDataset(Dataset):
                 metric,
                 label_map=dict(),
                 reduce_zero_label=self.reduce_zero_label)
-        # test a list of pre_eval_results
+        # test a list of pre_eval_results:
         else:
             ret_metrics = pre_eval_to_metrics(results, metric)
 
